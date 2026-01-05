@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Today To-Do</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .app {
+      background: #ffffffee;
+      width: 360px;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: 22px;
+      text-align: center;
+      color: #333;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 8px;
+    }
+
+    input {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: #f7f7f7;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    li input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    li span {
+      flex: 1;
+      font-size: 14px;
+      color: #333;
+    }
+
+    li.done {
+      opacity: 0;
+      transform: translateX(20px);
+      transition: all 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app">
+    <h1>오늘의 할 일</h1>
+
+    <div class="input-area">
+      <input id="todoInput" type="text" placeholder="할 일을 입력하세요" />
+      <button onclick="addTodo()">추가</button>
+    </div>
+
+    <ul id="todoList"></ul>
+  </div>
+
+  <script>
+    const input = document.getElementById("todoInput");
+    const list = document.getElementById("todoList");
+
+    function addTodo() {
+      const text = input.value.trim();
+      if (!text) return;
+
+      const li = document.createElement("li");
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+
+      const span = document.createElement("span");
+      span.textContent = text;
+
+      checkbox.addEventListener("change", () => {
+        li.classList.add("done");
+        setTimeout(() => li.remove(), 300);
+      });
+
+      li.appendChild(checkbox);
+      li.appendChild(span);
+      list.appendChild(li);
+
+      input.value = "";
+    }
+
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") addTodo();
+    });
+  </script>
+
+</body>
+</html>
